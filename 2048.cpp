@@ -16,7 +16,6 @@ private:
     bool gameOver;
     bool win;
 
-    // Функции для работы с терминалом
     void enableRawMode() {
         termios term;
         tcgetattr(STDIN_FILENO, &term);
@@ -103,14 +102,12 @@ public:
     }
 
     bool canMove() {
-        // Проверка пустых клеток
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (board[i][j] == 0) return true;
             }
         }
 
-        // Проверка возможных слияний
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == board[i][j + 1]) return true;
@@ -129,7 +126,7 @@ public:
     void moveLeft() {
         moved = false;
         for (int i = 0; i < 4; i++) {
-            // Сжатие
+        
             vector<int> newRow;
             for (int j = 0; j < 4; j++) {
                 if (board[i][j] != 0) {
@@ -137,7 +134,7 @@ public:
                 }
             }
 
-            // Слияние
+            
             for (int j = 0; j < (int)newRow.size() - 1; j++) {
                 if (newRow[j] == newRow[j + 1]) {
                     newRow[j] *= 2;
@@ -148,12 +145,10 @@ public:
                 }
             }
 
-            // Заполнение нулями
             while (newRow.size() < 4) {
                 newRow.push_back(0);
             }
 
-            // Проверка изменения
             for (int j = 0; j < 4; j++) {
                 if (board[i][j] != newRow[j]) moved = true;
                 board[i][j] = newRow[j];
